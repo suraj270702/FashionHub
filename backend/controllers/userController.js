@@ -1,4 +1,5 @@
 const User = require('../models/userModel')
+const sendToken = require('../utils/jwtToken')
 
 exports.registerUser = async(req,res) => {
     try{
@@ -37,11 +38,12 @@ exports.loginUser = async(req,res) => {
         return res.status(401).json({message :"Incorrect Eamil or Password!"});
     }
 
-    const token = user.getJwtToken()
-    res.status(200).json({
-        success : true,
-        token
-    })
+    //const token = user.getJwtToken()
+    //res.status(200).json({
+        //success : true,
+        //token
+    //})
+    sendToken(user,200,res)
 } 
 catch(error){
     return res.status(500).json({error})
