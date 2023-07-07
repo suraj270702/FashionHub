@@ -1,5 +1,6 @@
 const Product = require("../models/productsmodel");
 const productsSchema = require("../models/productsmodel");
+const ApiFeatures = require("../utils/apiFeatures");
 const errorHandler = require("../utils/errorHandler");
 //create a product
 exports.createProduct = async (req, res) => {
@@ -16,8 +17,16 @@ exports.createProduct = async (req, res) => {
 
 //function for fetching products
 exports.getAllProducts = async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json({ success: true, products });
+  try {
+    const productperpage = 5
+    const apiFeature = new ApiFeatures(Product.find(),req.query).search().filter()
+    const products = await apiFeature.query
+    
+
+    res.status(200).json({ success: true, products });
+  } catch (error) {
+    return res.status(500).json({ message: "internal Server Error" });
+  }
 };
 
 //function for updating products
@@ -72,3 +81,28 @@ exports.getProductDetails = async (req, res) => {
     return res.status(500).json({ message: "Bad request" });
   }
 };
+
+
+//testing
+
+exports.testing = async(req,res) => {
+    try{
+      //console.log(req.query)
+      //let products = await Product.find()
+      const productcount = await Product.countDocuments()
+      const apiFeature = new ApiFeatures(Product.find(),req.query).search().filter()
+      const products = await apiFeature.query
+      let page = parseInt(req.query.page) 
+      let limit = parseInt(req.query.limit) 
+
+      let start = (page - 1) * limit
+      let end = page * limit
+
+      const productsresult = products.slice(start,end)
+      res.status(200).json({productsresult,productcount})
+    }
+    catch(error){
+        console.log(error)
+        res.status(500).json({message : "Internal Servor Error"})
+    }
+}
