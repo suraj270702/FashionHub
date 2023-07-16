@@ -43,12 +43,16 @@ const productsSchema = mongoose.Schema({
         maxLength : [4,"please check your stock number"],
         default : 1
     },
-    numofeviews : {
+    numofreviews : {
         type : Number,
         default : 0
 },
 reviews : [
-    {
+    {  user:{
+         type : mongoose.Schema.ObjectId,
+         role : "user",
+         required : true
+    },
         name:{
             type : String,
             required : true

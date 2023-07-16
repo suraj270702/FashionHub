@@ -156,3 +156,77 @@ exports.updatePassword = async(req,res,next) => {
         return res.status(500).json({error,message:"Something went wrong"})
     }
 }
+
+exports.updateProfile = async(req,res) => {
+    try{
+       const userData ={
+        name : req.body.name,
+        email : req.body.email
+       }
+
+       const user = await User.findByIdAndUpdate(req.user.id,userData,{
+        new : true,
+        runValidators : true,
+        userFindAndModify : false
+       })
+
+       return res.status(200).json({message : "profile updated successfully"})
+    }
+    catch(error){
+        return res.status(500).json({message : "something went wrong"})
+    }
+}
+
+exports.getAllUsers = async(req,res) => {
+    const users = await User.find()
+    return res.status(200).json({users})
+}
+
+exports.getAllUserDetails = async(req,res) => {
+    try{
+        const user = await User.findById(req.params.id)
+        if(!user){
+            return res.status(404).json({message : "user does not exist"})
+        }
+        return res.status(200).json({user})
+        }
+        catch(error){
+            return res.status(403).json({message : "Something went wrong"})
+        }
+}
+
+exports.updateUserRole = async(req,res) => {
+    try{
+       const userData ={
+        name : req.body.name,
+        email : req.body.email,
+        role : req.body.role
+       }
+
+       const user = await User.findByIdAndUpdate(req.params.id,userData,{
+        new : true,
+        runValidators : true,
+        userFindAndModify : false
+       })
+
+       return res.status(200).json({message : "profile updated successfully"})
+    }
+    catch(error){
+        return res.status(500).json({message : "something went wrong"})
+    }
+}
+
+exports.deleteUser = async(req,res) => {
+    try{
+    let user = await User.findByIdAndDelete(req.params.id)
+    if(!user){
+        return res.status(400).json({message : "user not found"})
+
+    }
+    //await user.remove()
+    return res.status(200).json({message : "User Deleted Successfully"})
+    }
+    catch(error){
+        return res.status(500).json({error : error})
+    }
+}
