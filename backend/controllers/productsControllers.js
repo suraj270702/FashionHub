@@ -153,3 +153,48 @@ exports.createReviews = async (req,res) => {
     return res.status(500).json({message : "something went wrong"})
   }
 }
+
+exports.getReviews = async (req,res) => {
+  try{
+   const product = await Product.findById(req.query.id)
+
+   if(!product){
+    return res.status(404).json({message : "Product Not Found"})
+   }
+
+   return res.status(200).json({success : true,reviews : product.reviews})
+  }
+  catch(error){
+    return res.status(500).json({messgae : "something went wrong"})
+  }
+}
+
+exports.deleteReviews = async (req,res) => {
+  try{
+   const product = await Product.findById(req.query.productid)
+
+   if(!product){
+    return res.status(404).json({message : "Product Not Found"})
+   }
+   
+   const reviews = product.reviews.filter(rev=> rev._id.toString() !== req.query.id.toString())
+   let avg=0;
+
+   reviews.forEach((rev)=>{
+    avg+=rev.rating;
+   })
+
+   const rating = avg/reviews.length;
+   const numofreviews = reviews.length
+
+   await Product.findByIdAndUpdate(req.query.productid,{reviews,rating,numofreviews},{
+    new : true,
+    runValidators : true,
+    useFindAndModify : false
+   })
+   return res.status(200).json({message : "Reviews Deleted Successfully"})
+  }
+  catch(error){
+    return res.status(500).json({messgae : "something went wrong"})
+  }
+}
