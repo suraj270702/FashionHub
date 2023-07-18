@@ -76,6 +76,9 @@ exports.allOrders = async(req,res) => {
 //admin order status
 exports.updateOrders = async(req,res) => {
     try{
+        if(!order){
+            return res.status(404).json({message : "order does not eist"})
+         }
     const order = await Order.findById(req.params.id)
     if(order.orderStatus==="Delivered"){
         return res.status(400).json({message : "Product is already delivered"})
