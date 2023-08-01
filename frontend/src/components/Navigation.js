@@ -11,7 +11,7 @@ import {
 import {Link} from "react-router-dom"
 
 const navigation = [
-  { name: "Men", href: "#", current: true },
+  { name: "Men", href: "/men", current: false },
   { name: "Women", href: "#", current: false },
   { name: "Accessories", href: "#", current: false },
   { name: "Account", href: "#", current: false },
@@ -42,14 +42,14 @@ export default function Navigation() {
               </div>
               <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex flex-shrink-0 items-center">
-                  <h1 style={{color : "white"}}>FashionDestination</h1>
+                  <Link to="/"><h1 style={{color : "white"}}>FashionDestination</h1></Link>
                 </div>
                 <div className="hidden sm:ml-6 sm:block">
                   <div className="flex space-x-4">
                     {navigation.map((item) => (
-                      <a
+                      <Link
                         key={item.name}
-                        href={item.href}
+                        to={item.href}
                         className={classNames(
                           item.current
                             ? "bg-gray-900 text-white"
@@ -57,9 +57,10 @@ export default function Navigation() {
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
                         aria-current={item.current ? "page" : undefined}
+                        
                       >
                         {item.name}
-                      </a>
+                      </Link>
                     ))}
                   </div>
                 </div>
