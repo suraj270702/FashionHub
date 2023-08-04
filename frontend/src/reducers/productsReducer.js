@@ -17,7 +17,7 @@ export const productReducer =
       case all_products_success:
         return {
           loading: false,
-          product: action.payload.products,
+          products: action.payload.products,
           //productsCount: action.payload.productsCount,
         };
 
