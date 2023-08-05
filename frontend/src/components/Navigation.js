@@ -12,8 +12,8 @@ import {Link} from "react-router-dom"
 
 const navigation = [
   { name: "Men", href: "/men", current: false },
-  { name: "Women", href: "#", current: false },
-  { name: "Accessories", href: "#", current: false },
+  { name: "Women", href: "/details", current: false },
+  { name: "Accessories", href: "/test", current: false },
   { name: "Account", href: "#", current: false },
 ];
 

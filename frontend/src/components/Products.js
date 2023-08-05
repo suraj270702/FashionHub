@@ -27,7 +27,7 @@ const Products = ({product}) => {
     <div class="mt-4 flex justify-between">
       <div>
         <h3 class="text-sm text-gray-700">
-          <Link to={product._id}>
+          <Link to={`/product/${product._id}`}>
             <span aria-hidden="true" class="absolute inset-0"></span>
             {product.name}
           </Link>

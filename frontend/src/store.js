@@ -3,10 +3,11 @@ import {configureStore} from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 
 import {composeWithDevTools} from "redux-devtools-extension"
-import { productReducer } from "./reducers/productsReducer"
+import { productDetailsReducer, productReducer } from "./reducers/productsReducer"
 
 const reducer = combineReducers({
-  products : productReducer
+  products : productReducer,
+  productDetails : productDetailsReducer
 })
 
 let initialState = {};
