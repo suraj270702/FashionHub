@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import './productDetails.css';
-import ReactStars from 'react-rating-stars-component';
-import { useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetails } from '../actions/productsActions';
-
+import React, { useState, useEffect } from "react";
+import "./productDetails.css";
+import ReactStars from "react-rating-stars-component";
+import { useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getProductDetails } from "../actions/productsActions";
+import Loader from "./Loader";
+import ReviewCard from "./ReviewCard";
 const options = {
   edit: false,
   isHalf: true,
@@ -13,7 +14,9 @@ const options = {
 const Test = () => {
   const [selectedImage, setSelectedImage] = useState(0);
 
-  const { product, loading, error } = useSelector((state) => state.productDetails);
+  const { product, loading, error } = useSelector(
+    (state) => state.productDetails
+  );
   const { id } = useParams();
   const dispatch = useDispatch();
 
@@ -24,7 +27,7 @@ const Test = () => {
   return (
     <section id="product-details" className="section-p1">
       {loading ? (
-        <div>Loading...</div>
+        <Loader />
       ) : error ? (
         <div>Error: {error}</div>
       ) : (
@@ -34,8 +37,8 @@ const Test = () => {
               <img src={product.images[selectedImage].url} alt="" />
             )}
             <div className="small-image-group">
-              {
-               product.images && product.images.map((image, index) => (
+              {product.images &&
+                product.images.map((image, index) => (
                   <div className="small-image-col" key={image.public_id}>
                     <img
                       src={image.url}
@@ -55,7 +58,7 @@ const Test = () => {
             <h3 className="text-2xl font-bold text-gray-900 sm:pr-12">
               {product.name}
             </h3>
-            <ReactStars {...options} value={product.rating} />
+            <ReactStars {...options} value={product.rating} size={30} />
             <h3 className="text-2xl font-bold text-gray-900 sm:pr-12">
               &#8377; {product.price}
             </h3>
@@ -65,9 +68,27 @@ const Test = () => {
               <option>L</option>
               <option>XL</option>
             </select>
-            <input type="number" value={1} />
+            <div className="detailsBlock-3-1">
+              <div className="detailsBlock-3-1-1">
+                 <button>-</button>
+                 <input value={1} type="number" />
+                 <button>+</button>
+              </div>
+            </div>
+
             <h3 className="text-2xl font-bold text-gray-900 sm:pr-12">
-              Status: {product.inStock ? 'In Stock' : 'Out of Stock'}
+              Status:{" "}
+              {product.stock >=1 ? (
+                <h3 className="text-2xl font-bold text-green-500 sm:pr-12">
+                  {" "}
+                  In Stock
+                </h3>
+              ) : (
+                <h3 className="text-2xl font-bold text-red-600 sm:pr-12">
+                  {" "}
+                  Out Of Stock
+                </h3>
+              )}
             </h3>
             <button className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Add to Cart
@@ -79,10 +100,24 @@ const Test = () => {
               Product Description
             </h4>
             <span>{product.description}</span>
+            <button className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+              Submit Review
+            </button>
+            <div className="reviews">
+            {product.reviews && product.reviews[0] ? (
+              product.reviews.map((review) => <ReviewCard review={review} />)
+            ) : (
+              <p className="noreview">No Reviews Yet</p>
+            )}
           </div>
+          </div>
+          
         </>
       )}
+      
     </section>
+    
+    
   );
 };
 

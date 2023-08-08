@@ -1,0 +1,44 @@
+
+.slider h1{
+font-size: 30px;
+padding-left: 20px;
+text-align: center;
+}
+.slider{
+    border: 1px solid rgba(0, 0, 0, 0.434);
+}
+.slider-custom{
+    width: 100px;
+}
+.categories{
+    border: 1px solid rgba(0, 0, 0, 0.434);
+    margin-top: 20px;
+}
+.categories h1{
+    font-size: 30px;
+    text-align: center;
+}
+.categories ul{
+    display: flex;
+    flex-wrap: wrap;
+    
+}
+.categories li{
+   font-size: 20px;
+   padding: 20px;
+}
+.categories li :hover{
+    color: blue;
+}
+  @media  screen and (max-width: 600px) {
+    .slider{
+        width: 100%;
+    }
+    .slider h1{
+        font-size: 15px;
+        text-align: center;
+    }
+    .categories li{
+        padding: 15px;
+    }
+  }

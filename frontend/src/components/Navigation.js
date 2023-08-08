@@ -14,7 +14,7 @@ const navigation = [
   { name: "Men", href: "/men", current: false },
   { name: "Women", href: "/details", current: false },
   { name: "Accessories", href: "/test", current: false },
-  { name: "Account", href: "#", current: false },
+  { name: "Account", href: "/login", current: false },
 ];
 
 function classNames(...classes) {
@@ -68,13 +68,13 @@ export default function Navigation() {
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 {/* Search */}
                 <div className="flex lg:ml-6">
-                  <a href="#" className="p-2 text-gray-400 hover:text-gray-500">
+                  <Link to="/search" className="p-2 text-gray-400 hover:text-gray-500">
                     <span className="sr-only">Search</span>
                     <MagnifyingGlassIcon
                       className="h-6 w-6"
                       aria-hidden="true"
                     />
-                  </a>
+                  </Link>
                 </div>
 
                 {/* Cart */}

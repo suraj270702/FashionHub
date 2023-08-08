@@ -10,13 +10,20 @@ import {
 
   import axios from "axios"
 
-  export const getProduct =()=> async(dispatch) => {
+  export const getProduct =(keyword="",price,category)=> async(dispatch) => {
 
     try {
         dispatch({type : all_products_request})
+        var link = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}`
 
-        const {data} = await axios.get("/api/v1/products")
-
+        if(category){
+            link = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}&category=${category}`
+        }
+        else{
+            link = `/api/v1/products?keyword=${keyword}&price[gte]=${price[0]}&price[lte]=${price[1]}`
+        }
+        const {data} = await axios.get(link)
+        
         dispatch({
             type : all_products_success,
             payload : data
@@ -25,7 +32,7 @@ import {
     } catch (error) {
         dispatch({
             type : all_products_failed,
-            payload : error.response.data.message
+            
         })
     }
   }

@@ -10,6 +10,9 @@ import { BrowserRouter,Route,Routes } from "react-router-dom";
 import Newproducts from "./components/Newproducts";
 import ProductDetails from "./components/ProductDetails";
 import Test from "./components/Test";
+import Search from "./components/Search";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
   return (
@@ -18,9 +21,11 @@ function App() {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/men" element={<Men />} />
-      
-      
+      <Route path="/men/:keyword" element={<Men />} />
+      <Route path="/register" element={<Register />} />
+      <Route path="/login" element={<Login />} />
       <Route path="/product/:id" element={<Test />} />
+      <Route path="/search" element={<Search />} />
     </Routes>
     </BrowserRouter>
   );
