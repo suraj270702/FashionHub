@@ -1,25 +1,31 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState,useEffect } from "react";
 import { Link } from "react-router-dom";
-
+import {useSelector,useDispatch} from "react-redux"
+import { Clearerrors,  register } from '../actions/LoginActions'
+import { ToastContainer, toast } from 'react-toastify';
 const Register = () => {
+  const dispatch = useDispatch()
+  const {isAuthenticated,error}  = useSelector((state)=>state.newuser)
   const registerref = useRef(null);
-  const [user,setUser] = useState({
+  const [User,setUser] = useState({
     name : "",
     email : "",
     password : ""
   })
-  const {name,email,password} = user
+  const {name,email,password} = User
   const [avatar,setAvatar] = useState("https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png")
   const [avatarPreview,setAvatarPreview] = useState("https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png")
   const registersubmit =(e)=>{
     e.preventDefault()
 
     const myForm = new FormData()
-
+    myForm.set("avatar",avatar)
     myForm.set("name",name)
     myForm.set("email",email)
     myForm.set("password",password)
-    myForm.set("avatar",avatar)
+    
+    dispatch(register(myForm))
+
   }
   const submitHandler = (e) => {
     if(e.target.name === "avatar"){
@@ -33,9 +39,15 @@ const Register = () => {
     
           reader.readAsDataURL(e.target.files[0]);
     }else{
-        setUser({...user,[e.target.name]:e.target.value})
+        setUser({...User,[e.target.name]:e.target.value})
     }
   };
+  useEffect(()=>{
+  if(isAuthenticated){
+    toast.success("Account registered successful")
+    window.location.href="/account"
+  }
+  },[isAuthenticated])
   return (
     <>
       <section class="bg-gray-50 dark:bg-gray-900">
@@ -185,6 +197,7 @@ const Register = () => {
             </div>
           </div>
         </div>
+        <ToastContainer />
       </section>
     </>
   );
