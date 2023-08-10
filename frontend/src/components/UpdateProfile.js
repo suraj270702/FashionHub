@@ -1,34 +1,36 @@
+
 import React, { useRef, useState,useEffect } from "react";
 import { Link } from "react-router-dom";
 import {useSelector,useDispatch} from "react-redux"
-import { Clearerrors,  register } from '../actions/LoginActions'
+import { Clearerrors,  loadUser,  register, update } from '../actions/LoginActions'
 import { ToastContainer, toast } from 'react-toastify';
-const Register = () => {
-  const dispatch = useDispatch()
-  const {isAuthenticated,error}  = useSelector((state)=>state.newuser)
+import { update_user_reset } from '../constants/userConstants';
+const UpdateProfile = () => {
+    const dispatch = useDispatch()
+  const {user}  = useSelector((state)=>state.user)
+  const {error,isUpdated,loading} = useSelector((state)=>state.profile)
   const registerref = useRef(null);
-  const [User,setUser] = useState({
-    name : "",
-    email : "",
-    password : ""
-  })
-  const {name,email,password} = User
-  const [avatar,setAvatar] = useState("https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png")
-  const [avatarPreview,setAvatarPreview] = useState("https://static.vecteezy.com/system/resources/previews/019/896/008/original/male-user-avatar-icon-in-flat-design-style-person-signs-illustration-png.png")
-  const registersubmit =(e)=>{
+  
+  
+  const [avatar,setAvatar] = useState(user.avatar.url)
+  const [avatarPreview,setAvatarPreview] = useState(user.avatar.url)
+  const [name,setName] = useState(user.name)
+  const [email,setEmail] = useState(user.email)
+
+  const updateSubmit =(e)=>{
     e.preventDefault()
 
     const myForm = new FormData()
     myForm.set("avatar",avatar)
     myForm.set("name",name)
     myForm.set("email",email)
-    myForm.set("password",password)
+   
     
-    dispatch(register(myForm))
+    dispatch(update(myForm))
 
   }
   const submitHandler = (e) => {
-    if(e.target.name === "avatar"){
+    
         const reader = new FileReader()
         reader.onload = () => {
             if (reader.readyState === 2) {
@@ -38,19 +40,24 @@ const Register = () => {
           };
     
           reader.readAsDataURL(e.target.files[0]);
-    }else{
-        setUser({...User,[e.target.name]:e.target.value})
-    }
+    
   };
   useEffect(()=>{
-  if(isAuthenticated){
-    toast.success("Account registered successful")
+    if(error){
+        toast.error(error)
+    }
     
-  }
-  },[isAuthenticated])
+    if(isUpdated){
+        
+        dispatch(loadUser())
+        window.location.href="/account"
+        dispatch({type : update_user_reset})
+    }
+  },[isUpdated,error])
   return (
+    
     <>
-      <section class="bg-gray-50 dark:bg-gray-900">
+    <section class="bg-gray-50 dark:bg-gray-900">
         <div
           class="flex flex-col items-center justify-center px-6 py-8 mx-auto  lg:py-0"
           style={{ paddingTop: 50 }}
@@ -69,12 +76,12 @@ const Register = () => {
           <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
-                Create an account
+                Update an account
               </h1>
               <form
                 class="space-y-4 md:space-y-6"
                 ref={registerref}
-                onSubmit={registersubmit}
+                onSubmit={updateSubmit}
                 value="Register"
               >
                 <div>
@@ -113,7 +120,7 @@ const Register = () => {
                     placeholder="John Doe"
                     required="true"
                     value={name}
-                    onChange={submitHandler}
+                    onChange={(e)=>setName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -131,30 +138,13 @@ const Register = () => {
                     placeholder="name@company.com"
                     required="true"
                     value={email}
-                    onChange={submitHandler}
+                    onChange={(e)=>setEmail(e.target.value)}
                   />
                 </div>
-                <div>
-                  <label
-                    for="password"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
-                  >
-                    Password
-                  </label>
-                  <input
-                    type="password"
-                    name="password"
-                    id="password"
-                    placeholder="••••••••"
-                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required="true"
-                    value={password}
-                    onChange={submitHandler}
-                  />
-                </div>
+                
                 <div>
                   <button type="submit" value="Register" className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
-                    Create Account
+                    Update Account
                   </button>
                 </div>
 
@@ -184,15 +174,7 @@ const Register = () => {
                   </div>
                 </div>
 
-                <p class="text-sm font-light text-gray-500 dark:text-gray-400">
-                  Already have an account?{" "}
-                  <Link
-                    to="/login"
-                    class="font-medium text-primary-600 hover:underline dark:text-primary-500"
-                  >
-                    Login here
-                  </Link>
-                </p>
+                
               </form>
             </div>
           </div>
@@ -200,7 +182,7 @@ const Register = () => {
         <ToastContainer />
       </section>
     </>
-  );
-};
+  )
+}
 
-export default Register;
+export default UpdateProfile

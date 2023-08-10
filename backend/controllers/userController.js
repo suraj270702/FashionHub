@@ -169,14 +169,31 @@ exports.updateProfile = async(req,res) => {
         name : req.body.name,
         email : req.body.email
        }
+       
+       if(req.body.avatar !==""){
+        const user = await User.findById(req.user.id)
+        const imageId = user.avatar.publicid
 
+        await cloudinary.v2.uploader.destroy(imageId)
+
+        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
+            folder : "avatars",
+            width : 150,
+            crop : "scale"
+        })
+        userData.avatar={
+            publicid : myCloud.public_id,
+            url : myCloud.secure_url
+           }
+       }
+       
        const user = await User.findByIdAndUpdate(req.user.id,userData,{
         new : true,
         runValidators : true,
         userFindAndModify : false
        })
 
-       return res.status(200).json({message : "profile updated successfully"})
+       return res.status(200).json({message : "profile updated successfully",success : true})
     }
     catch(error){
         return res.status(500).json({message : "something went wrong"})
