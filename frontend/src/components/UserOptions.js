@@ -24,6 +24,7 @@ const UserOptions = ({user}) => {
     const logout =()=>{
         dispatch(Logout())
         toast.success("Logout Successfully")
+        window.location.href="/"
     }
     const options = [
         {icon : <ListAltIcon />,name : "Orders",func : orders},

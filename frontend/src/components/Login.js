@@ -26,6 +26,10 @@ const Login = () => {
         toast.success(`Hello ${user.name}`)
         
        }
+       if(!isAuthenticated){
+        setEmail("")
+        setPassword("")
+       }
     },[dispatch,error,isAuthenticated,user])
   return (
     <>
@@ -58,7 +62,7 @@ const Login = () => {
                             <label for="remember" class="text-gray-500 dark:text-gray-300">Remember me</label>
                           </div>
                       </div>
-                      <Link to="/" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
+                      <Link to="/Forgotpassword" class="text-sm font-medium text-primary-600 hover:underline dark:text-primary-500">Forgot password?</Link>
                   </div>
                   <div>
                   <button className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">

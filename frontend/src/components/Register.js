@@ -5,7 +5,7 @@ import { Clearerrors,  register } from '../actions/LoginActions'
 import { ToastContainer, toast } from 'react-toastify';
 const Register = () => {
   const dispatch = useDispatch()
-  const {isAuthenticated,error}  = useSelector((state)=>state.newuser)
+  const {isRegistered,error}  = useSelector((state)=>state.newusers)
   const registerref = useRef(null);
   const [User,setUser] = useState({
     name : "",
@@ -43,11 +43,11 @@ const Register = () => {
     }
   };
   useEffect(()=>{
-  if(isAuthenticated){
+  if(isRegistered){
     toast.success("Account registered successful")
     
   }
-  },[isAuthenticated])
+  },[isRegistered])
   return (
     <>
       <section class="bg-gray-50 dark:bg-gray-900">

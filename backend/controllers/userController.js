@@ -20,7 +20,7 @@ exports.registerUser = async(req,res) => {
         }
     })
     const token = user.getJwtToken()
-    res.status(200).json({success : true,token})
+    res.status(200).json({success : true,token,user})
         
     }
     catch(err){
@@ -87,7 +87,7 @@ exports.forgotPassword = async(req,res,next) => {
     }
     const resetToken = user.resetPasswordToken()
     await user.save({validateBeforeSave : false})
-    const resetPasswordUrl = `${req.protocol}://${req.get("host")}/api/v1/password/reset/${resetToken}`
+    const resetPasswordUrl = `http://3000/resetpassword/${resetToken}`
     const message = `Your password reset link is \n\n ${resetPasswordUrl} \n\n If you have not requested then kindly ignore it`
        await sendEmail({
         email : user.email,
@@ -165,34 +165,37 @@ exports.updatePassword = async(req,res,next) => {
 
 exports.updateProfile = async(req,res) => {
     try{
-       const userData ={
-        name : req.body.name,
-        email : req.body.email
-       }
-       
-       if(req.body.avatar !==""){
-        const user = await User.findById(req.user.id)
-        const imageId = user.avatar.publicid
+        const newUserData = {
+            name: req.body.name,
+            email: req.body.email,
+          };
+        
+          if (req.body.avatar !== "") {
+            const user = await User.findById(req.user.id);
+        
+            const imageId = user.avatar.publicid;
+        
+            await cloudinary.v2.uploader.destroy(imageId);
+        
+            const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar, {
+              folder: "avatars",
+              width: 150,
+              crop: "scale",
+            });
+        
+            newUserData.avatar = {
+              publicid: myCloud.public_id,
+              url: myCloud.secure_url,
+            };
+          }
+        
+          const user = await User.findByIdAndUpdate(req.user.id, newUserData, {
+            new: true,
+            runValidators: true,
+            useFindAndModify: false,
+          });
 
-        await cloudinary.v2.uploader.destroy(imageId)
-
-        const myCloud = await cloudinary.v2.uploader.upload(req.body.avatar,{
-            folder : "avatars",
-            width : 150,
-            crop : "scale"
-        })
-        userData.avatar={
-            publicid : myCloud.public_id,
-            url : myCloud.secure_url
-           }
-       }
-       
-       const user = await User.findByIdAndUpdate(req.user.id,userData,{
-        new : true,
-        runValidators : true,
-        userFindAndModify : false
-       })
-
+        
        return res.status(200).json({message : "profile updated successfully",success : true})
     }
     catch(error){
