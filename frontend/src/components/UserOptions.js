@@ -8,18 +8,20 @@ import { ToastContainer, toast } from 'react-toastify';
 import { Logout } from '../actions/LoginActions';
 import { useDispatch } from 'react-redux';
 import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import './UserOptions.css'
 const UserOptions = ({user}) => {
     const [open,setOpen] = useState(false)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const dashboard =()=>{
-        window.location.href="/dashboard"
+        navigate("/dashboard")
     }
     const orders =()=>{
-        window.location.href="/orders"
+        navigate("/orders")
     }
     const account =()=>{
-        window.location.href="/account"
+        navigate("/account")
     }
     const logout =()=>{
         dispatch(Logout())
@@ -52,7 +54,7 @@ const UserOptions = ({user}) => {
     className='speedDial'
     >
 {options.map((item)=>(
-    <SpeedDialAction key={item.name} icon={item.icon} tooltipTitle={item.name} onClick={item.func}/>
+    <SpeedDialAction key={item.name} icon={item.icon} tooltipTitle={item.name} tooltipOpen={window.innerWidth <= 600 ? true : false} onClick={item.func}/>
 ))}
     </SpeedDial>
     <ToastContainer />

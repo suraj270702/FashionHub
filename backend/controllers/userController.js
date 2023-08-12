@@ -87,7 +87,7 @@ exports.forgotPassword = async(req,res,next) => {
     }
     const resetToken = user.resetPasswordToken()
     await user.save({validateBeforeSave : false})
-    const resetPasswordUrl = `http://3000/resetpassword/${resetToken}`
+    const resetPasswordUrl = `https://fashiondestinationecommerceapp.netlify.app/resetpassword/${resetToken}`
     const message = `Your password reset link is \n\n ${resetPasswordUrl} \n\n If you have not requested then kindly ignore it`
        await sendEmail({
         email : user.email,

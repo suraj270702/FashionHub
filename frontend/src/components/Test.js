@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { getProductDetails } from "../actions/productsActions";
 import Loader from "./Loader";
 import ReviewCard from "./ReviewCard";
+import { addtoCart } from "../actions/cartActions";
+import { toast,ToastContainer } from "react-toastify";
 const options = {
   edit: false,
   isHalf: true,
@@ -13,16 +15,31 @@ const options = {
 
 const Test = () => {
   const [selectedImage, setSelectedImage] = useState(0);
-
+  const [quantity,setQuantity] = useState(1)
+  
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
   const { id } = useParams();
   const dispatch = useDispatch();
-
+  const increaseQuantity=()=>{
+    if(product.stock <= quantity) return
+    let qty = quantity + 1
+    setQuantity(qty)
+  }
+  const decreaseQuantity=()=>{
+    if(quantity <= 1) return
+    let qty = quantity - 1
+    setQuantity(qty)
+  }
   useEffect(() => {
     dispatch(getProductDetails(id));
   }, [dispatch, id]);
+
+  const addtocartHandler=()=>{
+    dispatch(addtoCart(id,quantity))
+    toast.success("Product Added To Cart Successfully")
+  }
 
   return (
     <section id="product-details" className="section-p1">
@@ -70,9 +87,9 @@ const Test = () => {
             </select>
             <div className="detailsBlock-3-1">
               <div className="detailsBlock-3-1-1">
-                 <button>-</button>
-                 <input value={1} type="number" />
-                 <button>+</button>
+                 <button onClick={decreaseQuantity}>-</button>
+                 <input readOnly value={quantity} type="number" />
+                 <button onClick={increaseQuantity}>+</button>
               </div>
             </div>
 
@@ -90,7 +107,7 @@ const Test = () => {
                 </h3>
               )}
             </h3>
-            <button className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button onClick={addtocartHandler} className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Add to Cart
             </button>
             <h4
@@ -111,7 +128,7 @@ const Test = () => {
             )}
           </div>
           </div>
-          
+          <ToastContainer />
         </>
       )}
       
