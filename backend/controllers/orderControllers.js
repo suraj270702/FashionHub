@@ -76,26 +76,29 @@ exports.allOrders = async(req,res) => {
 //admin order status
 exports.updateOrders = async(req,res) => {
     try{
+        const order = await Order.findById(req.params.id)
         if(!order){
             return res.status(404).json({message : "order does not eist"})
          }
-    const order = await Order.findById(req.params.id)
+    
     if(order.orderStatus==="Delivered"){
         return res.status(400).json({message : "Product is already delivered"})
     }
+    if(req.body.status==="Shipped"){
     order.orderItems.forEach(async (order)=>{
          await updateStock(order.product,order.quantity)
     })
+}
 
     order.orderStatus = req.body.status
     if(req.body.status==="Delivered"){
         order.deliveredAt = Date.now()
     }
     await order.save({validateBeforeSave : false})
-    return res.status(200).json({order})
+    return res.status(200).json({success:true})
     }
     catch(error){
-        return res.status(500).json({message : "something went wrong"})
+        return res.status(500).json({message : `something went wrong error is ${error}`})
     }
 }
 

@@ -1,17 +1,32 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
-import {Country,State} from "country-state-city"
+import {State} from "country-state-city"
 import CheckoutSteps from './CheckoutSteps'
+import {TransformStream,ToastContainer, toast} from "react-toastify"
+import { useNavigate } from 'react-router-dom'
+import { saveShippingInfo } from '../actions/cartActions'
 const ShippingInfo = () => {
     const dispatch = useDispatch()
     const {ShippingInfo} = useSelector((state)=>state.cart)
+    const navigateConfirem = useNavigate()
     const [address,setAddress] = useState("")
     const [city,setCity] = useState("")
     const [state,setState] = useState("")
     const [country,setCountry] = useState("India")
-    const [pincode,setPincode] = useState()
+    const [pinCode,setPincode] = useState()
     const [phoneNo,setPhoneNo] = useState()
+
+    const shippingInfoSubmit=(e)=>{
+        e.preventDefault()
+        if(phoneNo.length < 10 || phoneNo.length > 10){
+            toast.error("Phone Number is invalid")
+            return;
+        }
+        dispatch(saveShippingInfo({address,city,state,pinCode,country,phoneNo}))
+        navigateConfirem("/confirmorder")
+    }
+    
   return (
     <>
     <CheckoutSteps activeStep={0} />
@@ -26,7 +41,7 @@ const ShippingInfo = () => {
               <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Provide Your  Shipping Details
               </h1>
-              <form class="space-y-4 md:space-y-6" action="#">
+              <form class="space-y-4 md:space-y-6" encType="multipart/form-data" onSubmit={shippingInfoSubmit}>
                   <div>
                       <label for="address" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Address</label>
                       <input type="text" value={address} onChange={(e)=>setAddress(e.target.value)} name="address" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Room No,Building Name,Street Name" required="true"/>
@@ -37,7 +52,7 @@ const ShippingInfo = () => {
                   </div>
                   <div>
                       <label for="pincode" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pincode</label>
-                      <input type="number" value={pincode} onChange={(e)=>setPincode(e.target.value)} name="pincode" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="234560" required="true"/>
+                      <input type="number" value={pinCode} onChange={(e)=>setPincode(e.target.value)} name="pincode" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="234560" required="true"/>
                   </div>
                   <div>
                       <label for="country" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Country</label>
@@ -68,6 +83,7 @@ const ShippingInfo = () => {
           </div>
       </div>
   </div>
+  <ToastContainer />
 </section>
     </>
   )

@@ -235,10 +235,10 @@ exports.updateUserRole = async(req,res) => {
         userFindAndModify : false
        })
 
-       return res.status(200).json({message : "profile updated successfully"})
+       return res.status(200).json({message : "profile updated successfully",success:true})
     }
     catch(error){
-        return res.status(500).json({message : "something went wrong"})
+        return res.status(500).json({message : `${error}`})
     }
 }
 

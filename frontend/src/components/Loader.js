@@ -2,7 +2,8 @@ import React from 'react'
 import {Circles} from "react-loader-spinner"
 const Loader = () => {
   return (
-    <Circles
+    <div style={{display:"flex",justifyContent:"center",alignItems:"center",marginTop:250}}>
+      <Circles
   height="80"
   width="80"
   color="#4fa94d"
@@ -11,6 +12,7 @@ const Loader = () => {
   wrapperClass=""
   visible={true}
 />
+    </div>
   )
 }
 

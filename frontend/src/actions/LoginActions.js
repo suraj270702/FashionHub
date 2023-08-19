@@ -25,7 +25,16 @@ import {
   forgot_password_success,
   reset_password_fail,
   reset_password_request,
-  reset_password_success
+  reset_password_success,
+  all_users_request,
+  all_users_success,
+  all_users_fail,
+  user_details_request,
+  user_details_success,
+  user_details_fail,
+  admin_update_user_request,
+  admin_update_user_suucess,
+  admin_update_user_fail
 } from "../constants/userConstants";
 
 export const login = (email, password) => async (dispatch) => {
@@ -109,6 +118,39 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: load_user_success, payload: data.user });
   } catch (error) {
     dispatch({ type: load_user_fail, payload: error.response.data.message });
+  }
+};
+
+export const adminUserDetails = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: user_details_request });
+
+    const { data } = await axios.get(`/api/v1/admin/userdetails/${id}`);
+    dispatch({ type: user_details_success, payload: data.user });
+  } catch (error) {
+    dispatch({ type: user_details_fail, payload: error.response.data.message });
+  }
+};
+
+export const adminAllUsers = () => async (dispatch) => {
+  try {
+    dispatch({ type: all_users_request });
+
+    const { data } = await axios.get(`/api/v1/admin/users`);
+    dispatch({ type: all_users_success, payload: data.users });
+  } catch (error) {
+    dispatch({ type: all_users_fail, payload: error.response.data.message });
+  }
+};
+
+export const adminUpdateUsers = (id,userData) => async (dispatch) => {
+  try {
+    dispatch({ type: admin_update_user_request });
+    const config = { headers: { "Content-Type": "application/json" } };
+    const { data } = await axios.put(`/api/v1/admin/updateuserrole/${id}`,userData,config);
+    dispatch({ type: admin_update_user_suucess, payload: data.success });
+  } catch (error) {
+    dispatch({ type: admin_update_user_fail, payload: error.response.data.message });
   }
 };
 

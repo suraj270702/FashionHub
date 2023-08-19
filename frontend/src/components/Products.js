@@ -47,8 +47,8 @@ const Products = () => {
               
               <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {products &&
-                  products.map((product) => (
-                    <div class="group relative">
+                  products.map((product,i) => (
+                    <div class="group relative" key={i}>
                       <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
                         <img
                           src="https://www.snitch.co.in/cdn/shop/products/Snitch_Jan21_-1384_1800x1800.jpg?v=1688537847"

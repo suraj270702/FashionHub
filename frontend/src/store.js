@@ -3,11 +3,12 @@ import {configureStore} from "@reduxjs/toolkit"
 import thunk from "redux-thunk"
 
 import {composeWithDevTools} from "redux-devtools-extension"
-import { productDetailsReducer, productReducer } from "./reducers/productsReducer"
+import { Deleteproductreducer, newProductsReducer, productDetailsReducer, productReducer, productReviewsReducer, reviewReducer } from "./reducers/productsReducer"
 
 
-import { forgotPasswordReducer, registerReducer, updateReducer, userReducer } from "./reducers/userReducer"
+import { AdminAllUsersReducer, adminUserDetailsReducer, forgotPasswordReducer, registerReducer, updateReducer, userReducer } from "./reducers/userReducer"
 import { cartReducer } from "./reducers/CartReducer"
+import { adminOrdersReducer, adminUpdateOrderReducer, adminorderDetailsReducer, myOrdersReducer, newOrderReducer, orderDetailsReducer } from "./reducers/orderReducer"
 
 const reducer = combineReducers({
   products : productReducer,
@@ -16,21 +17,45 @@ const reducer = combineReducers({
   newusers : registerReducer,
   profile : updateReducer,
   forgotpassword : forgotPasswordReducer,
-  cart : cartReducer
+  cart : cartReducer,
+  newOrder : newOrderReducer,
+  myOrders : myOrdersReducer,
+  orderDetails : orderDetailsReducer,
+  review : reviewReducer,
+  newproduct : newProductsReducer,
+  deleteproduct : Deleteproductreducer,
+  adminallorders : adminOrdersReducer,
+  adminorder : adminUpdateOrderReducer,
+  adminorderdetails : adminorderDetailsReducer,
+  allusers:AdminAllUsersReducer,
+  singleuser : adminUserDetailsReducer,
+  reviews : productReviewsReducer
 })
 
-let initialState = {
-  
+let cartItems = window.localStorage.getItem("cartItems");
+console.log("Cart Items from localStorage:", cartItems);
+
+let shippingInfo = window.localStorage.getItem("shippingInfo");
+console.log("Shipping Info from localStorage:", shippingInfo);
+
+var initialState = {}
+window.addEventListener("load", () => {
+  let cartItems = window.localStorage.getItem("cartItems");
+  console.log("Cart Items from localStorage:", cartItems);
+
+  let shippingInfo = window.localStorage.getItem("shippingInfo");
+  console.log("Shipping Info from localStorage:", shippingInfo);
+
+   initialState = {
     cart: {
-      cartItems: window.localStorage.getItem("cartItems")
-        ? JSON.parse(window.localStorage.getItem("cartItems"))
-        : [],
-        shippingInfo : window.localStorage.getItem("shippingInfo") 
-              ? JSON.parse(window.localStorage.getItem("shippingInfo") )
-              : {},
-    }
-  
-};
+      cartItems: cartItems ? JSON.parse(cartItems) : [],
+      shippingInfo: shippingInfo ? JSON.parse(shippingInfo) : {},
+    },
+  };
+
+  // Now you can use the `initialState` object as needed
+});
+
 
 const middleware = [thunk]
 

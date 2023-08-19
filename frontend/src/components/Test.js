@@ -3,23 +3,31 @@ import "./productDetails.css";
 import ReactStars from "react-rating-stars-component";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetails } from "../actions/productsActions";
+import { getProductDetails, newReview } from "../actions/productsActions";
 import Loader from "./Loader";
 import ReviewCard from "./ReviewCard";
 import { addtoCart } from "../actions/cartActions";
 import { toast,ToastContainer } from "react-toastify";
+import { Dialog,DialogActions,DialogContent,DialogTitle,Button } from "@material-ui/core";
+import { Rating } from "@mui/material";
+import { review_reset } from "../constants/productsConstants";
 const options = {
-  edit: false,
-  isHalf: true,
+  size: "large",
+  readOnly: true,
+  precision : 0.5
 };
 
 const Test = () => {
   const [selectedImage, setSelectedImage] = useState(0);
   const [quantity,setQuantity] = useState(1)
+  const[rating,setRating] = useState(0)
+  const[open,setOpen] = useState(false)
+  const[comment,setComment] = useState("")
   
   const { product, loading, error } = useSelector(
     (state) => state.productDetails
   );
+  const {success,error:reviewerror} = useSelector((state)=>state.review)
   const { id } = useParams();
   const dispatch = useDispatch();
   const increaseQuantity=()=>{
@@ -33,12 +41,30 @@ const Test = () => {
     setQuantity(qty)
   }
   useEffect(() => {
+
     dispatch(getProductDetails(id));
-  }, [dispatch, id]);
+    if(success){
+      toast.success("Review Submitted Successfully")
+      dispatch({type:review_reset})
+    }
+  }, [dispatch, id,success]);
 
   const addtocartHandler=()=>{
     dispatch(addtoCart(id,quantity))
     toast.success("Product Added To Cart Successfully")
+  }
+
+  const reviewSubmitHandler =()=>{
+    const myForm = new FormData()
+    myForm.set("rating",rating)
+    myForm.set("comment",comment)
+    myForm.set("productId",id)
+    dispatch(newReview(myForm))
+    setOpen(false)
+  }
+
+  const submitReviewToggle=()=>{
+    open ? setOpen(false) : setOpen(true)
   }
 
   return (
@@ -75,7 +101,7 @@ const Test = () => {
             <h3 className="text-2xl font-bold text-gray-900 sm:pr-12">
               {product.name}
             </h3>
-            <ReactStars {...options} value={product.rating} size={30} />
+            <Rating {...options} value={product.rating}  />
             <h3 className="text-2xl font-bold text-gray-900 sm:pr-12">
               &#8377; {product.price}
             </h3>
@@ -107,7 +133,7 @@ const Test = () => {
                 </h3>
               )}
             </h3>
-            <button onClick={addtocartHandler} className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button disabled={product.stock < 1 ? true : false} onClick={addtocartHandler} className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Add to Cart
             </button>
             <h4
@@ -117,9 +143,20 @@ const Test = () => {
               Product Description
             </h4>
             <span>{product.description}</span>
-            <button className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            <button onClick={submitReviewToggle} className="mt-6 flex w-full items-center justify-center rounded-md border border-transparent bg-indigo-600 px-8 py-3 text-base font-medium text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
               Submit Review
             </button>
+            <Dialog aria-labelledby="simple-dialog-title" open={open} onClose={submitReviewToggle}>
+              <DialogTitle>Submit Review</DialogTitle>
+               <DialogContent className="submitDialog">
+                <Rating onChange={(e)=>setRating(e.target.value)} value={rating} size="large"/>
+                <textarea className="submitDialogTextArea" cols="30" rows="5" value={comment} onChange={(e)=>setComment(e.target.value)}></textarea>
+               </DialogContent>
+               <DialogActions>
+                <Button onClick={reviewSubmitHandler}>Submit</Button>
+                <Button color="secondary" onClick={submitReviewToggle}>Cancel</Button>
+               </DialogActions>
+            </Dialog>
             <div className="reviews">
             {product.reviews && product.reviews[0] ? (
               product.reviews.map((review) => <ReviewCard review={review} />)
