@@ -9,7 +9,7 @@ const bodyParser = require("body-parser")
 const fileUpload = require("express-fileupload")
 const payment = require("./routes/paymentRoute")
 const dotenv = require("dotenv")
-
+const cors = require("cors")
 dotenv.config({path : "backend/config/config.env"})
 app.use(express.json({ limit: '10mb' }))
 app.use(cookieParser())
@@ -21,7 +21,7 @@ app.use("/api/v1/",product)
 app.use("/api/v1/",user)
 app.use("/api/v1",order)
 app.use("/api/v1",payment)
-
+app.use(cors());
 
 
 

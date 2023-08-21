@@ -11,9 +11,9 @@ import {
 import {Link} from "react-router-dom"
 
 const navigation = [
-  { name: "Men", href: "/men", current: false },
-  { name: "Women", href: "/details", current: false },
-  { name: "Accessories", href: "/test", current: false },
+  { name: "Products", href: "/men", current: false },
+  { name: "Trending", href: "/details", current: false },
+  { name: "New", href: "/test", current: false },
   { name: "Account", href: "/login", current: false },
 ];
 
@@ -84,9 +84,7 @@ export default function Navigation() {
                       className="h-6 w-6 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
                       aria-hidden="true"
                     />
-                    <span className="ml-2 text-sm font-medium text-gray-700 group-hover:text-gray-800">
-                      0
-                    </span>
+                    
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>
                 </div>

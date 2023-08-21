@@ -30,6 +30,12 @@ text-align: center;
 .categories li :hover{
     color: blue;
 }
+.inner img{
+    display: none;
+}
+.img-container:hover .inner img{
+    display: block;
+}
   @media  screen and (max-width: 600px) {
     .slider{
         width: 100%;

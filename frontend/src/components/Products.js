@@ -6,33 +6,30 @@ import Loader from "./Loader";
 import { toast } from "react-toastify";
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
-import {Slider} from "@material-ui/core"
-import './Men.css'
+import { Slider } from "@material-ui/core";
+import "./Men.css";
 
 const Products = () => {
   const options = {
     edit: false,
     isHalf: true,
   };
-  
 
-  
-  const [price,setPrice] = useState([0,100000])
-  const [category,setCategory] = useState("")
-  const priceHandler =(event,newprice)=>{
-    setPrice(newprice)
-
-  }
+  const [price, setPrice] = useState([0, 100000]);
+  const [category, setCategory] = useState("");
+  const priceHandler = (event, newprice) => {
+    setPrice(newprice);
+  };
   const getText = (price) => `${price}`;
-  const {keyword} = useParams()
+  const { keyword } = useParams();
   const dispatch = useDispatch();
   const { products, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
     if (error) {
       toast.error("Oops something went wrong");
     }
-    dispatch(getProduct(keyword,price,category));
-  }, [dispatch,keyword,price,category]);
+    dispatch(getProduct(keyword, price, category));
+  }, [dispatch, keyword, price, category]);
   return (
     <>
       {loading ? (
@@ -44,17 +41,23 @@ const Products = () => {
               <h2 class="text-2xl font-bold tracking-tight text-gray-900">
                 Featured's Section
               </h2>
-              
+
               <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {products &&
-                  products.map((product,i) => (
+                  products.map((product, i) => (
                     <div class="group relative" key={i}>
-                      <div class="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+                      <div className="relative img-container aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group">
                         <img
-                          src="https://www.snitch.co.in/cdn/shop/products/Snitch_Jan21_-1384_1800x1800.jpg?v=1688537847"
-                          alt="Front of men&#039;s Basic Tee in black."
-                          class="h-full w-full object-cover object-center lg:h-full lg:w-full"
+                          src={product.images && product.images[0].url}
+                          alt="Front of men's Basic Tee in black."
+                          className="h-full w-full object-cover object-center lg:h-full lg:w-full custom1"
                         />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-300">
+                          <img
+                            src={product.images && product.images[1].url}
+                            alt="Front of men's Basic Tee in black."
+                          />
+                        </div>
                       </div>
                       <div class="mt-4 flex justify-between">
                         <div>

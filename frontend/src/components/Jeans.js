@@ -1,57 +1,45 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
-import { clearErrors, getProduct } from "../actions/productsActions";
-import Loader from "./Loader";
-import { toast } from "react-toastify";
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
 import ReactStars from "react-rating-stars-component";
 import { Link } from "react-router-dom";
-import {Slider} from "@material-ui/core"
+import Loader from './Loader';
 import './Men.css'
-
-const Men = () => {
-  const options = {
-    edit: false,
-    isHalf: true,
-  };
-  const categories = [
-    "Men-Shirt",
-    "Men-Tshirt",
-    "Men-Jeans",
-    "Men-Trouser",
-    "Men-Jacket",
-    "Men-Joggers",
-    "Men-Cords",
-    "Men-Short"
-  ]
-
+import {Slider} from "@material-ui/core"
+import { useDispatch,useSelector } from 'react-redux';
+import {  getProduct } from "../actions/productsActions";
+const Jeans = () => {
+    const [tshirtdata,setData] = useState([])
+    
+    const dispatch = useDispatch()
+    const { products, loading, error } = useSelector((state) => state.products);
+    const options = {
+      edit: false,
+      isHalf: true,
+    };
+    const [price,setPrice] = useState([0,2000])
   
-  const [price,setPrice] = useState([0,100000])
-  const [category,setCategory] = useState("")
   const priceHandler =(event,newprice)=>{
     setPrice(newprice)
 
   }
+  const keyword = ""
+  const category = "Men-Jeans"
   const getText = (price) => `${price}`;
-  const {keyword} = useParams()
-  const dispatch = useDispatch();
-  const { products, loading, error } = useSelector((state) => state.products);
   useEffect(() => {
-    if (error) {
-      toast.error("Oops something went wrong");
-    }
+    
     dispatch(getProduct(keyword,price,category));
   }, [dispatch,keyword,price,category]);
   return (
     <>
-      {loading ? (
+
+{loading ? (
         <Loader />
       ) : (
         <>
-          <div class="bg-white">
+          <div class="bg-white mt-0">
             <div class="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
               <h2 class="text-2xl font-bold tracking-tight text-gray-900">
-                All Product's Section
+                T-shirt's Section
               </h2>
               <div className="slider">
                 <h1>Choose The Price Range</h1>
@@ -60,28 +48,16 @@ const Men = () => {
                 valueLabelDisplay="on"
                 aria-labelledby="range-slider"
                 min={0}
-                max={5000}
+                max={2000}
                 step={100}
                 
         
         getAriaValueText={getText}
                 />
               </div>
-              <div className="categories">
-                <h1>Categories Range</h1>
-               <ul>
-                {categories.map((category)=>(
-                  <li
-                  className="category-link"
-                  key={category}
-                  onClick={()=> setCategory(category)}
-                  >{category}</li>
-                ))}
-               </ul>
-              </div>
               <div class="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
                 {products &&
-                  products.map((product,i) => (
+                  products.map((product, i) => (
                     <div class="group relative" key={i}>
                       <div className="relative img-container aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group">
                         <img
@@ -123,8 +99,9 @@ const Men = () => {
           </div>
         </>
       )}
+      
     </>
-  );
-};
+  )
+}
 
-export default Men;
+export default Jeans

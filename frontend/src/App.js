@@ -41,6 +41,14 @@ import UpdateOrder from "./components/UpdateOrder";
 import AdminUsers from "./components/AdminUsers";
 import AdminUserDetails from "./components/AdminUserDetails";
 import AdminReviews from "./components/AdminReviews";
+import Tshirts from "./components/Tshirts";
+import MenShirt from "./components/MenShirt";
+import Jeans from "./components/Jeans";
+import Trouser from "./components/Trouser";
+import Cords from "./components/Cords";
+import Jackets from "./components/Jackets";
+import Joggers from "./components/Joggers";
+import Shorts from "./components/Shorts";
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
   useEffect(() => {
@@ -58,6 +66,14 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/product/:id" element={<Test />} />
         <Route path="/search" element={<Search />} />
+        <Route path="/tshirts" element={<Tshirts />} />
+        <Route path="/shirt" element={<MenShirt />} />
+        <Route path="/jeans" element={<Jeans />} />
+        <Route path="/trouser" element={<Trouser />} />
+        <Route path="/cords" element={<Cords />} />
+        <Route path="/jackets" element={<Jackets />} />
+        <Route path="/joggers" element={<Joggers />} />
+        <Route path="/shorts" element={<Shorts />} />
         {
           isAuthenticated && <Route
           path="/account"

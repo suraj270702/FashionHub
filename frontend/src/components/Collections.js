@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Collections = () => {
   return (
@@ -18,10 +19,10 @@ const Collections = () => {
                   />
                 </div>
                 <h3 class="mt-6 text-sm text-gray-500">
-                  <a href="#">
+                  <Link to="/shirt">
                     <span class="absolute inset-0"></span>
                     Shirts
-                  </a>
+                  </Link>
                 </h3>
                 
               </div>
@@ -34,42 +35,106 @@ const Collections = () => {
                   />
                 </div>
                 <h3 class="mt-6 text-sm text-gray-500">
-                  <a href="#">
+                  <Link to="/tshirts">
                     <span class="absolute inset-0"></span>
                     T-shirts
-                  </a>
+                  </Link>
                 </h3>
                 
               </div>
               <div class="group relative">
                 <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                   <img
-                    src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg"
+                    src="https://www.snitch.co.in/cdn/shop/collections/09_360x.jpg?v=1680514544"
                     alt="Collection of four insulated travel bottles on wooden shelf."
                     class="h-full w-full object-cover object-center"
                   />
                 </div>
                 <h3 class="mt-6 text-sm text-gray-500">
-                  <a href="#">
+                  <Link to="/jeans">
                     <span class="absolute inset-0"></span>
-                    Travel
-                  </a>
+                    Jeans
+                  </Link>
                 </h3>
                 
               </div>
               <div class="group relative">
                 <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
                   <img
-                    src="https://tailwindui.com/img/ecommerce-images/home-page-02-edition-03.jpg"
+                   src="https://www.snitch.co.in/cdn/shop/collections/04_360x.jpg?v=1666954698"
                     alt="Collection of four insulated travel bottles on wooden shelf."
                     class="h-full w-full object-cover object-center"
                   />
                 </div>
                 <h3 class="mt-6 text-sm text-gray-500">
-                  <a href="#">
+                  <Link to="/joggers">
                     <span class="absolute inset-0"></span>
-                    Travel
-                  </a>
+                    Joggers
+                  </Link>
+                </h3>
+                
+              </div>
+              <div class="group relative">
+                <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                  <img
+                   src="https://www.snitch.co.in/cdn/shop/collections/Snitch_Feb21_3288_507d7464-c261-477e-8795-22cb539441cc_360x.jpg?v=1688731876"
+                    alt="Collection of four insulated travel bottles on wooden shelf."
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <h3 class="mt-6 text-sm text-gray-500">
+                  <Link to="/trouser">
+                    <span class="absolute inset-0"></span>
+                    Trousers
+                  </Link>
+                </h3>
+                
+              </div>
+              <div class="group relative">
+                <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                  <img
+                    src="https://www.snitch.co.in/cdn/shop/collections/Mushroom_White_Co-Ords_af9f585b-c383-4b26-a1b6-5fe1bf48f164_360x.jpg?v=1666954434"
+                    alt="Collection of four insulated travel bottles on wooden shelf."
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <h3 class="mt-6 text-sm text-gray-500">
+                  <Link to="/cords">
+                    <span class="absolute inset-0"></span>
+                    Co-Ords
+                  </Link>
+                </h3>
+                
+              </div>
+              <div class="group relative">
+                <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                  <img
+                   src="https://www.snitch.co.in/cdn/shop/collections/02_540x.jpg?v=1688974172"
+                    alt="Collection of four insulated travel bottles on wooden shelf."
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <h3 class="mt-6 text-sm text-gray-500">
+                  <Link to="/shorts">
+                    <span class="absolute inset-0"></span>
+                    Shorts
+                  </Link>
+                </h3>
+                
+              </div>
+              <div class="group relative">
+                <div class="relative h-80 w-full overflow-hidden rounded-lg bg-white sm:aspect-h-1 sm:aspect-w-2 lg:aspect-h-1 lg:aspect-w-1 group-hover:opacity-75 sm:h-64">
+                  <img
+                   src="https://www.snitch.co.in/cdn/shop/collections/1_2_ebed9700-b2b5-44b1-8053-6cde8889c838_360x.jpg?v=1680514729"
+                    alt="Collection of four insulated travel bottles on wooden shelf."
+                    class="h-full w-full object-cover object-center"
+                  />
+                </div>
+                <h3 class="mt-6 text-sm text-gray-500">
+                  <Link to="/jackets">
+                    <span class="absolute inset-0"></span>
+                    Jackets
+                  </Link>
                 </h3>
                 
               </div>

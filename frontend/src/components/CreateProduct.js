@@ -20,7 +20,9 @@ const CreateProduct = () => {
         "Men-Jeans",
         "Men-Trouser",
         "Men-Jacket",
-        "smartphone"
+        "Men-Cords",
+        "Men-Short",
+        "Men-Joggers"
       ]
       const [name,setName] = useState("")
       const [stock,setStock] = useState(0)
