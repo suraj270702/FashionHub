@@ -29,7 +29,7 @@ const DashBoard = () => {
     dispatch(adminAllUsers())
   },[dispatch])
   let outOfStock =0;
-  products.forEach((item)=>{
+  products && products.forEach((item)=>{
     if(item.stock === 0) outOfStock++;
   })
 
@@ -42,7 +42,7 @@ const DashBoard = () => {
     ],
     datasets: [{
       label: 'Stock Status',
-      data: [outOfStock, products.length-outOfStock],
+      data: [outOfStock,products && products.length-outOfStock],
       backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(54, 162, 235)',
